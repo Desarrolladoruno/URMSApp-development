@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="URMSApp.ItemGeneral"
+    NavigationCacheMode="Enabled"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:URMSApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    
+    <ScrollViewer >
+       
+        <Grid Height="600" Margin="0,0,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="Auto"/>
+                
+            </Grid.RowDefinitions>
+
+            <RelativePanel Grid.Row="0">
+                <TextBlock Name="TitleTextBlock"
+                       Text="Item Manager"
+                       RelativePanel.AlignLeftWithPanel="True"
+                       RelativePanel.AlignTopWithPanel="True"
+                       FontSize="40" FontWeight="Bold"
+                       Margin="20,10,0,15"/>
+            </RelativePanel>
+            <Grid Grid.Row="1" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <RelativePanel Grid.Column="0" HorizontalAlignment="Left" Width="180" Margin="0,0,0,0">
+                    <Grid RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" HorizontalAlignment="Left" Width="180">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="85"/>
+                            <RowDefinition Height="85"/>
+                            <RowDefinition Height="85"/>
+                            <RowDefinition Height="85"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="85"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ToggleButton x:Name="Btn_ItemGeneralOptions" FontSize="25" Width="160" Height="80" Grid.Row="0" Click="Btn_ItemGeneralOptions_Click"  IsChecked="True" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">General</ToggleButton>
+                        <ToggleButton IsEnabled="True" FontSize="25" x:Name="Btn_PricingO" Click="Btn_PricingO_Click" Grid.Row="1" RelativePanel.RightOf="Btn_ItemGeneralOptions" Margin="20,0,0,0" HorizontalAlignment="Left" Width="160" Height="80">Pricing</ToggleButton>
+                        <ToggleButton IsEnabled="True" FontSize="25" x:Name="Btn_DiscountO" Click="Btn_DiscountO_Click" Width="160" Height="80" Grid.Row="2" RelativePanel.RightOf="Btn_PricingO" Margin="20,0,0,0">Discounts</ToggleButton>
+                        <ToggleButton x:Name="Btn_MoreO" FontSize="25" Click="Btn_MoreO_Click" Width="160" Height="80" Grid.Row="3" RelativePanel.RightOf="Btn_DiscountO" RelativePanel.AlignRightWithPanel="True" Margin="20,0,0,0" >More...</ToggleButton>
+                        <Button x:Name="Btn_Clear" Visibility="Collapsed" Click="Btn_Clear_Click"  Background="Gray"  Width="95" Grid.Row="6" RelativePanel.RightOf="Btn_DiscountO" RelativePanel.AlignRightWithPanel="True" Margin="0,0,0,0" >Clear</Button>
+                        <Button x:Name="Btn_Save" FontSize="25" Click="Btn_Save_Click"  Width="160" Height="80" Grid.Row="5" RelativePanel.RightOf="Btn_DiscountO" RelativePanel.AlignRightWithPanel="True" Margin="20,4,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"  >
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF29B8CC" Offset="0.597"/>
+                                    <GradientStop Color="#FF959599" Offset="1"/>
+                                    <GradientStop Color="#FF959599" Offset="0"/>
+                                    <GradientStop Color="#FF29B8CC" Offset="0.193"/>
+                                    <GradientStop Color="#FF29B8CC" Offset="0.827"/>
+                                </LinearGradientBrush>
+                            </Button.Background>Save
+                        </Button>
+                    </Grid>
+                </RelativePanel>
+               
+                <!--<ScrollViewer >-->
+                
+                <RelativePanel HorizontalAlignment="Center" Grid.Column="1" Margin="0,0,0,0">
+                    <Frame Name="ItemMFrame" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0"></Frame>
+                    <!--<Button x:Name="Btn_Back" Content="Volver" HorizontalAlignment="Center" Click="OnButtonClick"></Button>-->
+                </RelativePanel>
+                
+            </Grid>
+        </Grid>
+
+    </ScrollViewer>
+    
+</Page>

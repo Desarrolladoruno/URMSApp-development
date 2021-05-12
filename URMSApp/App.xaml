@@ -1,0 +1,32 @@
+﻿<Application
+    x:Class="URMSApp.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:URMSApp"
+    RequestedTheme="Light">
+
+    <Application.Resources>
+       
+        <DataTemplate x:Key="VerdanaHeader">
+            <ContentPresenter>
+                <TextBlock Text="New Purchase Order"  FontSize="25" FontFamily="Verdana"/>
+            </ContentPresenter>
+        </DataTemplate>
+
+        <DataTemplate x:Key="VerdanaHeader2">
+            <ContentPresenter>
+                <TextBlock Text="New Physical Inventory"  FontSize="25" FontFamily="Verdana"/>
+            </ContentPresenter>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="PivotItemHeader">
+            <ContentPresenter>
+                <TextBlock Text="{Binding}"  FontSize="25" FontFamily="Verdana"/>
+            </ContentPresenter>
+        </DataTemplate>
+    </Application.Resources>
+
+  
+
+</Application>

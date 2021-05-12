@@ -1,0 +1,302 @@
+﻿<Page
+    x:Class="URMSApp.Views.PurchaseOrderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:URMSApp.Views"
+    xmlns:vm="using:URMSApp.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <Page.DataContext>
+        <vm:CollectionViewModel/>
+    </Page.DataContext>
+
+
+    <Grid Width="1000">
+        <Grid.Resources>
+            <vm:CollectionViewModel x:Name="CollectionVM" x:Key="CollectionVM"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <RelativePanel Grid.Row="0">
+            <Pivot x:Name="PurchasePivot" Margin="5,0,0,0" Width="1000" HeaderTemplate="{StaticResource PivotItemHeader}" TitleTemplate="{StaticResource VerdanaHeader}">
+                <PivotItem x:Name="pivotHeader" FontSize="16" Width="950" Header="Header">
+                    
+                        <RelativePanel Width="940" Margin="0,0,0,0">
+                        <TextBlock x:Name="LblDate" FontSize="20" Text="PO Date:" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Margin="10,30,0,0"/>
+                        <CalendarDatePicker x:Name="TextDate" FontSize="25" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="LblDate" Margin="25,30,0,0" Width="200" Height="45" MinHeight="35"/>
+                        <TextBlock RelativePanel.AlignTopWith="LblDate" FontSize="20" RelativePanel.RightOf="LblDate" x:Name="LblPON" Margin="270,30,0,0" Text="PO Number:" />
+                        <TextBox FontSize="25"  RelativePanel.AlignTopWith="LblDate" x:Name="TextPON" IsEnabled="false" Width="150" MinHeight="25" Height="45" RelativePanel.RightOf="LblDate" Margin="400,30,0,0" />
+                        <TextBlock RelativePanel.AlignTopWith="LblDate" FontSize="20" x:Name="LblStatus" Text="Status:" RelativePanel.RightOf="TextPON" Margin="45,30,0,0"/>
+                        <TextBox FontSize="25" RelativePanel.AlignTopWith="LblDate" IsEnabled="False" x:Name="CombStatus" Width="80" MinHeight="25" Height="45" RelativePanel.RightOf="LblStatus" Margin="15,30,0,0" />
+
+                        <TextBlock x:Name="LblTo" FontSize="20" Text="To:" RelativePanel.Below="TextPON" RelativePanel.AlignLeftWithPanel="True" Margin="10,30,0,0"/>
+                        <!--<TextBox FontSize="12" x:Name="TextTo"  MinHeight="25" Height="25" RelativePanel.Below="LblTo" Margin="10,25,0,0" Width="380" />-->
+                        <ComboBox x:Name="TextTo" DropDownOpened="TextTo_DropDownOpened" IsEnabled="false" FontSize="20" MinHeight="25" Height="45" RelativePanel.Below="LblTo" Margin="10,30,0,70" Width="380"></ComboBox>
+                        <Button x:Name="BtnLookTo" Click="BtnLookTo_Click" Width="100" Height="45" FontSize="20" RelativePanel.AlignTopWith="LblTo" RelativePanel.AlignRightWith="TextTo" Margin="0,30,0,0">LookUp...</Button>
+                        <TextBlock x:Name="LblShipTo" FontSize="20" Text="Ship To:" RelativePanel.AlignTopWith="LblTo" RelativePanel.RightOf="LblTo" Margin="450,30,0,0"/>
+                        <!--<TextBox FontSize="12" x:Name="TextShipTo" MinHeight="25" Height="25" RelativePanel.Below="LblShipTo" Margin="10,25,0,0" Width="380" />-->
+                        <ComboBox x:Name="TextShipTo" DropDownOpened="TextShipTo_DropDownOpened" IsEnabled="false" FontSize="20" MinHeight="25" RelativePanel.AlignLeftWith="LblShipTo" Height="45" RelativePanel.Below="LblShipTo" Margin="450,30,0,70" Width="380"></ComboBox>
+                        <Button x:Name="BtnLookShip" Click="BtnLookShip_Click" Width="100" Height="45" FontSize="20" RelativePanel.AlignTopWith="LblShipTo" RelativePanel.AlignRightWith="TextShipTo" Margin="0,30,0,0">LookUp...</Button>
+
+                    </RelativePanel>
+                        
+                   
+                </PivotItem>
+                <PivotItem x:Name="pivotContent" Width="950" FontSize="16" Header="Contents">
+
+                    <RelativePanel>
+                        <Border x:Name="BordeGeneral" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                                        Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                                        BorderThickness="1" RelativePanel.Below="HeaderGrid" Width="850" Height="200" Margin="10,3,0,0"
+                                        VerticalAlignment="Top">
+                            <ListView x:Name="ItemListView"  
+                                      ItemsSource="{Binding Source={StaticResource CollectionVM}, Path=ItemList}" 
+                                      HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top"
+                                      ItemClick="ItemListView_ItemClick"  IsItemClickEnabled="True">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Margin" Value="0,0,0,0"/>
+                                        <Setter Property="Background" Value="White"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="MinHeight" Value="30"/>
+                                        <Setter Property="Height" Value="30"/>
+                                        <Setter Property="VerticalAlignment" Value="Top"></Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5"/>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="330"/>
+                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="125"/>
+                                                <ColumnDefinition Width="125"/>
+                                                <ColumnDefinition Width="125"/>
+
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text=""></TextBlock>
+                                            <TextBlock   x:Name="TextItemLC" HorizontalAlignment="Left" FontSize="18" Grid.Column = "1" Margin = "0,0,0,0"  Text="{Binding ItemLookupCode}"></TextBlock>
+                                            <TextBlock  x:Name="TextDesc" HorizontalAlignment="Left" FontSize="18" Grid.Column = "2" Margin = "0,0,0,0"  Text="{Binding Description}"></TextBlock>
+                                            <TextBlock    x:Name="TextQO" HorizontalAlignment="Left" FontSize="18" Grid.Column = "3" Margin = "0,0,0,0"  Text="{Binding Qtyorder}"></TextBlock>
+                                            <TextBlock   x:Name="TextCost" HorizontalAlignment="Left" FontSize="18" Grid.Column = "4" Margin = "0,0,0,0"  Text="{Binding Cost}"></TextBlock>
+                                            <TextBlock   x:Name="TextExtCost" HorizontalAlignment="Left" FontSize="18" Grid.Column = "5" Margin = "0,0,0,0"  Text="{Binding Extcost}"></TextBlock>
+                                            <TextBlock   x:Name="TextTax" HorizontalAlignment="Left" FontSize="18" Grid.Column = "6" Margin = "0,0,0,0"  Text="{Binding Tax}"></TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+
+                            </ListView>
+                        </Border>
+                        <TextBlock x:Name="LblContent" FontSize="20"  Text="Content:" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Margin="10,5,0,0"/>
+                        <Grid x:Name="HeaderGrid"  RelativePanel.AlignLeftWith="LblContent" RelativePanel.Below="LblContent" Margin="10,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="315"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="115"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="120"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"  Text=""></TextBlock>
+                            <TextBlock x:Name="LblItemLC" HorizontalAlignment="Left" FontSize="20" Grid.Column = "1" Margin = "0,0,0,0"  Text="Barcode"></TextBlock>
+                            <TextBlock x:Name="LblDesc" HorizontalAlignment="Left" FontSize="20" Grid.Column = "2" Margin = "10,0,0,0"  Text="Description"></TextBlock>
+                            <TextBlock x:Name="LblQO" HorizontalAlignment="Left" FontSize="20" Grid.Column = "3" Margin = "10,0,0,0"  Text="Qty"></TextBlock>
+                            <TextBlock x:Name="LblCost" HorizontalAlignment="Left" FontSize="20" Grid.Column = "4" Margin = "10,0,0,0"  Text="Cost"></TextBlock>
+                            <TextBlock x:Name="LblExtCost" HorizontalAlignment="Left" FontSize="20" Grid.Column = "5" Margin = "10,0,0,0"  Text="Ext Cost"></TextBlock>
+                            <TextBlock x:Name="LblTax" HorizontalAlignment="Left" FontSize="20" Grid.Column = "6" Margin = "10,0,0,0"  Text="TaxRate"></TextBlock>
+
+                        </Grid>
+                        <Button x:Name="BtnAddI" Click="BtnAddI_Click" Width="100" Height="40" FontSize="18" RelativePanel.Below="BordeGeneral"  RelativePanel.AlignLeftWithPanel="True" Margin="10,20,0,20">Add Items...</Button>
+                        <Button x:Name="BtnDeleteI" Click="BtnDeleteI_Click" Height="40" Width="100" FontSize="18" RelativePanel.AlignTopWith="BtnAddI" RelativePanel.RightOf="BtnAddI" Margin="40,20,0,20" HorizontalAlignment="Stretch">Delete</Button>
+                        <Button x:Name="BtnReceiveI" Click="BtnReceiveI_Click" Visibility="Collapsed" Width="70" Height="30" FontSize="12" RelativePanel.AlignTopWith="BtnAddI" RelativePanel.RightOf="BtnDeleteI" Margin="165,20,0,20">Receive</Button>
+
+                    </RelativePanel>
+                </PivotItem>
+
+            </Pivot>
+        </RelativePanel>
+
+        <RelativePanel Grid.Row="1">
+            <TextBlock x:Name="LblSubtotal" FontSize="20" Text="Subtotal:" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Margin="40,5,0,0"/>
+            <TextBox FontSize="25" IsEnabled="False" x:Name="TextSubtotal" MinHeight="25" Height="45" RelativePanel.Below="LblSubtotal" RelativePanel.AlignLeftWithPanel="True" Margin="40,5,0,0" Width="100" />
+            <TextBlock x:Name="LblSalestax" FontSize="20" Text="Sales Tax:" RelativePanel.AlignTopWith="LblSubtotal" RelativePanel.AlignLeftWith="TextSalestax" Margin="27,5,0,0"/>
+            <TextBox FontSize="25" IsEnabled="False" x:Name="TextSalestax" MinHeight="25" Height="45" RelativePanel.Below="LblSubtotal" RelativePanel.RightOf="TextSubtotal" Margin="27,5,0,0" Width="100" />
+            <TextBlock x:Name="LblEstship" FontSize="20" Text="Est. Shipping:" RelativePanel.AlignTopWith="LblSubtotal" RelativePanel.AlignLeftWith="TextEstship" Margin="27,5,0,0"/>
+            <TextBox FontSize="25" x:Name="TextEstship" MinHeight="25" Height="45" RelativePanel.Below="LblSubtotal" RelativePanel.RightOf="TextSalestax" Margin="27,5,0,0" Width="100" />
+            <TextBlock x:Name="LblTotal" FontSize="20" Text="Total:" RelativePanel.AlignTopWith="LblSubtotal" RelativePanel.AlignLeftWith="TextTotal" Margin="27,5,0,0"/>
+            <TextBox FontSize="25" IsEnabled="False" x:Name="TextTotal" MinHeight="25" Height="45" RelativePanel.Below="LblSubtotal" RelativePanel.RightOf="TextEstship" Margin="27,5,0,0" Width="100" />
+            <Button  Content="Ok" x:Name="BtnOkPO" Click="BtnOkPO_Click" FontSize="20" RelativePanel.AlignTopWith="TextTotal" RelativePanel.AlignRightWithPanel="True" HorizontalAlignment="Right" Margin="0,0,260,10" Height="45" Width="118" VerticalAlignment="Top"/>
+            <Button Content="Cancel" Click="SimulateSaveClicked" FontSize="20" HorizontalAlignment="Right" RelativePanel.AlignTopWith="TextTotal" RelativePanel.AlignRightWithPanel="True" Margin="14,0,90,10" Height="45" Width="118"  VerticalAlignment="Top"/>
+        </RelativePanel>
+        <!--<Grid Grid.Row="2" Width="420" Margin="0,0,0,20"  HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="210"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="21"/>
+                <ColumnDefinition Width="12.6"/>
+                <ColumnDefinition Width="144.4"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Ok" x:Name="BtnOkPO" Click="BtnOkPO_Click" HorizontalAlignment="Center" Margin="0,20,0,0" Width="118" VerticalAlignment="Stretch"/>
+            <Button Grid.Column="2" Content="Cancel" Click="SimulateSaveClicked" HorizontalAlignment="Left"  Margin="14,20,0,0" Height="35" Width="118" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
+        </Grid>-->
+
+        <Popup VerticalOffset="10" Loaded="ToPopup_Loaded"  HorizontalOffset="20" x:Name="ToPopup" Grid.RowSpan="2">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="400" Height="500">
+                <RelativePanel>
+                    <Grid Width="380" HorizontalAlignment="Center" Margin="0,15,0,20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="TextTopopup" Text="To:" Grid.Row="0" FontSize="20" RelativePanel.AlignTopWithPanel="True" Margin="10,5,0,0"></TextBlock>
+                        <Border x:Name="Borde1" Grid.Row="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                        Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                        BorderThickness="1" RelativePanel.Below="Title" Width="370" Height="300" Margin="5,5,0,0">
+                            <ListView x:Name="ListSup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                ItemClick="ListSup_ItemClick"
+                                      IsMultiSelectCheckBoxEnabled="False" Margin="0,0,0,0">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Margin" Value="0,0,0,0"/>
+                                        <Setter Property="Background" Value="White"/>
+                                        <Setter Property="Padding" Value="5"/>
+                                        <Setter Property="MinHeight" Value="35"/>
+                                        <Setter Property="Height" Value="30"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <TextBlock Grid.Column="0" Text="{Binding}"></TextBlock>
+
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Border>
+
+                        <StackPanel Grid.Row="2" >
+
+                            <Grid Width="300" HorizontalAlignment="Center" Margin="0,15,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0"  x:Name="BtnOk" Click="BtnOk_Click"  HorizontalAlignment="Center" FontSize="20" Content="Ok" Width="90" Height="35" Margin="0,5,0,0"></Button>
+                                <Button Grid.Column="1" x:Name="BtnCancel" HorizontalAlignment="Center" FontSize="20" Click="BtnCancel_Click"  Content="Cancel" Width="90" Height="35" Margin="0,5,0,0"></Button>
+                            </Grid>
+
+                        </StackPanel>
+                    </Grid>
+                </RelativePanel>
+            </Border>
+        </Popup>
+
+        <Popup VerticalOffset="10" Loaded="ShiptoPopup_Loaded"  HorizontalOffset="20" x:Name="ShiptoPopup" Grid.RowSpan="2">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="400" Height="500">
+                <RelativePanel>
+                    <Grid Width="380" HorizontalAlignment="Center" Margin="0,15,0,20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="TextShiptopopup" Text="Ship To:" Grid.Row="0" FontSize="16" RelativePanel.AlignTopWithPanel="True" Margin="10,5,0,0"></TextBlock>
+                        <Border Grid.Row="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                        Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                        BorderThickness="1" RelativePanel.Below="Title" Width="370" Height="300" Margin="5,5,0,0">
+                            <ListView x:Name="ListCus" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                IsMultiSelectCheckBoxEnabled="False" Margin="0,0,0,0">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Margin" Value="0,0,0,0"/>
+                                        <Setter Property="Background" Value="White"/>
+                                        <Setter Property="Padding" Value="5"/>
+                                        <Setter Property="MinHeight" Value="15"/>
+                                        <Setter Property="Height" Value="30"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <TextBlock Grid.Column="0" Text="{Binding}"></TextBlock>
+
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Border>
+
+                        <StackPanel Grid.Row="2" >
+
+                            <Grid Width="300" HorizontalAlignment="Center" Margin="0,15,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0"  x:Name="BtnOkCus" Click="BtnOkCus_Click"  HorizontalAlignment="Center" FontSize="20" Content="Ok" Width="90" Height="35" Margin="0,5,0,0"></Button>
+                                <Button Grid.Column="1" x:Name="BtnCancelCus" HorizontalAlignment="Center" FontSize="20" Click="BtnCancelCus_Click"  Content="Cancel" Width="90" Height="35" Margin="0,5,0,0"></Button>
+                            </Grid>
+
+                        </StackPanel>
+                    </Grid>
+                </RelativePanel>
+            </Border>
+        </Popup>
+
+        <Popup VerticalOffset="50" HorizontalOffset="200" Loaded="AddIPopup_Loaded" x:Name="AddIPopup" Grid.RowSpan="2">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="300" Height="320">
+                <RelativePanel>
+                    <TextBlock RelativePanel.AlignTopWithPanel="True" x:Name="Title" Margin="20,5,0,0" FontSize="20" Text="Add Item"></TextBlock>
+
+                    <TextBlock RelativePanel.Below="Title" x:Name="Cant" FontSize="25"  Margin="20,10,0,0"  Text="Qty:"></TextBlock>
+                    <TextBox RelativePanel.Below="Cant" x:Name="TextBCantAddItem" FontSize="25" Margin="20,5,0,0" Width="50" Height="45" Text="1"></TextBox>
+                    <TextBlock RelativePanel.Below="TextBCantAddItem" x:Name="item" FontSize="25" Margin="20,20,0,0"  Text="Barcode:"></TextBlock>
+                    <TextBox RelativePanel.Below="item" Width="260" Height="45" FontSize="25" Margin="20,5,0,0" x:Name="TextBAddItem" KeyDown="TextBAddItem_KeyDown"></TextBox>
+
+                    <Button  x:Name="BtnAdd" Click="BtnAdd_Click"  HorizontalAlignment="Center" FontSize="25" Content="Add" VerticalAlignment="Top" RelativePanel.AlignLeftWith="TextBAddItem" RelativePanel.Below="TextBAddItem" Width="118"  Height="45" Margin="20,25,0,0"></Button>
+                    <Button x:Name="BtnClose" Click="BtnClose_Click" HorizontalAlignment="Center" FontSize="25"   Content="Close" VerticalAlignment="Top" RelativePanel.AlignRightWith="TextBAddItem" RelativePanel.Below="TextBAddItem" Width="118"  Height="45" Margin="0,25,0,0"></Button>
+
+                </RelativePanel>
+            </Border>
+        </Popup>
+
+
+        <Popup VerticalOffset="100" HorizontalOffset="70" Loaded="YESNOIPopup_Loaded"  x:Name="YESNOIPopup" Grid.RowSpan="2">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="350" Height="210">
+                <RelativePanel>
+                    <TextBlock RelativePanel.AlignTopWithPanel="True" x:Name="YNTitle" Margin="20,15,0,0" FontSize="20" Text="Warning!"></TextBlock>
+
+                    <TextBlock RelativePanel.Below="YNTitle" x:Name="Msg" Margin="20,15,0,0"  FontSize="20" Text="Are you sure want delete this item?"></TextBlock>
+                    <TextBlock RelativePanel.Below="Msg" x:Name="Msg2" Margin="20,5,0,0"  FontSize="20" Text="This action cannot be reversed."></TextBlock>
+
+                    <Button  x:Name="BtnY" Click="BtnY_Click"  HorizontalAlignment="Center" FontSize="20" Content="Yes" VerticalAlignment="Top" RelativePanel.AlignLeftWith="Msg" RelativePanel.Below="Msg2" Width="118"  Height="45" Margin="40,15,0,0"></Button>
+                    <Button x:Name="BtnN" Click="BtnN_Click"  HorizontalAlignment="Center" FontSize="20"   Content="No" VerticalAlignment="Top" RelativePanel.RightOf="BtnY" RelativePanel.Below="Msg2" Width="118"  Height="45" Margin="45,15,0,0"></Button>
+
+                </RelativePanel>
+            </Border>
+        </Popup>
+
+
+    </Grid>
+    <!--</ScrollViewer>-->
+</Page>

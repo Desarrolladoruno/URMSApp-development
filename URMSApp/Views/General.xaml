@@ -1,0 +1,173 @@
+﻿<Page
+    x:Class="URMSApp.General"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+    xmlns:local="using:URMSApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Viewbox>
+        <Grid HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <RelativePanel Grid.Row="0">
+                <Button Name="BtnScan" Visibility="Collapsed" Height="58" MinWidth="100" Click="BtnScan_Click"  RelativePanel.AlignLeftWithPanel="True"  Margin="100,10,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="25" Width="210">Scan Barcode</Button>
+                <Button Name="BtnNewItem" FontSize="25" Height="50" MinWidth="120" Click="BtnNewItem_Click"  RelativePanel.AlignLeftWithPanel="True" Margin="20,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Clear</Button>
+                <Button Name="BtnNew" FontSize="25" Height="50" MinWidth="120" Click="BtnNew_Click"  RelativePanel.RightOf="BtnNewItem" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">New Item</Button>
+                <Button Name="BtnOrder" FontSize="25" Height="50" MinWidth="120" Click="BtnOrder_Click"  RelativePanel.RightOf="BtnNew" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Add Order</Button>
+                <Button Name="BtnChart" FontSize="25" Height="50" MinWidth="120" Click="BtnChart_Click"  RelativePanel.RightOf="BtnOrder" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Item Sales</Button>
+                <Button Name="BtnClear" FontSize="25" Height="50" MinWidth="120" Visibility="Collapsed" RelativePanel.RightOf="BtnNewItem" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Clear</Button>
+
+            </RelativePanel>
+            <RelativePanel Grid.Row="1">
+                <Grid HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <RelativePanel Grid.Row="1" Grid.Column="0">
+                        <Button Height="35" Margin="5,0,0,0" FontSize="20" Name="BtnLookItem" MinWidth="80" Click="BtnLookItem_Click" Width="122" RelativePanel.RightOf="txtDescription" RelativePanel.AlignTopWith="txtScanBarcode">Search Item</Button>
+                        <Button Height="35" Name="BtnEditDescription" MinHeight="24"  MinWidth="60" Click="BtnEditDescription_Click" Margin="5,0,30,0" RelativePanel.AlignTopWith="txtDescription" RelativePanel.AlignLeftWith="BtnLookItem">...</Button>
+                        <Button Height="35" Visibility="Collapsed" Name="BtnEditItemNumber" MinHeight="24" MinWidth="60"  Margin="20,0,30,0" RelativePanel.AlignTopWith="txtItemNumber" RelativePanel.AlignLeftWith="BtnLookItem">...</Button>
+                        <Button Height="35" Name="BtnEditDepartment" Visibility="Collapsed" MinHeight="24" MinWidth="60" Click="BtnEditDepartment_Click"  Margin="20,0,30,0" RelativePanel.AlignTopWith="ComboDepartment" RelativePanel.AlignLeftWith="BtnLookItem">...</Button>
+                        <Button Height="35" Name="BtnEditCategory" Visibility="Collapsed" MinHeight="24" MinWidth="60" Click="BtnEditCategory_Click"  Margin="20,0,30,0" RelativePanel.AlignTopWith="ComboCategory" RelativePanel.AlignLeftWith="BtnLookItem">...</Button>
+
+                        <TextBlock FontSize="20" Name="TbSB" RelativePanel.AlignTopWithPanel="True" Margin="20,15,0,0">Barcode</TextBlock>
+                        <TextBlock FontSize="20" Name="TbD" RelativePanel.Below="txtScanBarcode" Margin="20,5,0,0">Description</TextBlock>
+                        <TextBlock FontSize="20" Name="TbIN" RelativePanel.Below="txtDescription" Margin="20,5,0,0">Item Number</TextBlock>
+                        <TextBlock FontSize="20" Name="TbDep" RelativePanel.Below="txtItemNumber" Margin="20,5,0,0">Department</TextBlock>
+                        <TextBlock FontSize="20" Name="TbCa" RelativePanel.Below="ComboDepartment" Margin="20,5,0,0">Category</TextBlock>
+                        <TextBox FontSize="18" Name="txtScanBarcode" KeyDown="txtScanBarcode_KeyDown" MinWidth="50"  MinHeight="24" Height="35" RelativePanel.AlignLeftWithPanel="true" Width="200" RelativePanel.Below="TbSB" Margin="20,0,0,0" Text=""></TextBox>
+                        <TextBox FontSize="18" IsReadOnly="True" MaxLength="29" Name="txtDescription" MinWidth="50" MinHeight="24" Height="35" Width="200" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="TbD" Margin="20,0,0,0"></TextBox>
+                        <TextBox FontSize="18" IsEnabled="False" Name="txtItemNumber" MinWidth="50" MinHeight="24" Height="35" Width="200"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="TbIN" Margin="20,0,0,0"></TextBox>
+
+                        <Button Name="BtnSave" Height="32" MinWidth="370" Visibility="Collapsed" Click="BtnSave_Click"    Margin="20,28,0,20" FontSize="17" VerticalAlignment="Center">Save</Button>
+                        <ComboBox  Name="ComboDepartment"  FontSize="18" DropDownOpened="ComboDepartment_DropDownOpened" RelativePanel.AlignLeftWithPanel="True" Width="200" RelativePanel.Below="TbDep"
+                       HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Margin="20,0,0,0">
+
+                        </ComboBox>
+                        <ComboBox  Name="ComboCategory" FontSize="18" DropDownOpened="ComboCategory_DropDownOpened" RelativePanel.AlignLeftWithPanel="True" Width="200" RelativePanel.Below="TbCa"
+                       HorizontalAlignment="Left" Height="35" VerticalAlignment="Top"  Margin="20,0,0,0">
+
+                        </ComboBox>
+
+
+                    </RelativePanel>
+
+                    <RelativePanel Grid.Row="1" Grid.Column="2">
+                        <CheckBox FontSize="20"  Name="ChkFS" MinWidth="100" Click="ChkFS_Click" RelativePanel.Below="txtPrice" RelativePanel.AlignLeftWithPanel="True" Margin="20,25,0,0">Accept food stamp for this item</CheckBox>
+                        <ComboBox  FontSize="18" Name="ComboTagAlone" DropDownOpened="ComboTagAlone_DropDownOpened" IsEnabled="True" RelativePanel.AlignLeftWithPanel="True" Width="150" RelativePanel.Below="lblTbD"
+                       HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Margin="20,5,0,20">
+                            <!--<ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>-->
+                        </ComboBox>
+                        <Button Name="BtnEditTagaloneqty" MinHeight="35"  MinWidth="60" Click="BtnEditTagaloneqty_Click"  Margin="5,5,5,0" RelativePanel.AlignTopWith="txtTagaloneqty" RelativePanel.AlignLeftWith="BtnEditPrice">...</Button>
+
+                        <TextBox IsReadOnly="True" FontSize="18" Name="txtTagaloneqty" InputScope="Number" MinWidth="50" MinHeight="35" Width="60" RelativePanel.AlignLeftWith="lblTbSB"  RelativePanel.AlignTopWith="ComboTagAlone" Margin="190,5,0,0" HorizontalAlignment="Left"></TextBox>
+                        <Button Height="35" Name="BtnEditTaxes" Visibility="Collapsed" MinHeight="24" MinWidth="60" Click="BtnEditTaxes_Click"  Margin="20,0,30,0" RelativePanel.AlignTopWith="ComboTax">...</Button>
+                        <Button Height="35" Name="BtnEditCost" MinHeight="24" MinWidth="60" Click="BtnEditCost_Click"  Margin="5,0,5,0" RelativePanel.AlignTopWith="txtCost" RelativePanel.RightOf ="txtCost">...</Button>
+                        <Button Height="35" Name="BtnEditPrice" MinHeight="24" MinWidth="60" Click="BtnEditPrice_Click" Margin="5,0,5,0" RelativePanel.AlignTopWith="txtPrice" RelativePanel.AlignLeftWith="BtnEditCost">...</Button>
+                        <TextBlock FontSize="20" Name="lblTbSB" RelativePanel.Below="ChkFS" Margin="20,10,0,0">Tag Alone Item</TextBlock>
+                        <!--<TextBox  Name="txtTagaloneitem"  MinHeight="30" Width="175" RelativePanel.AlignLeftWithPanel="true"  RelativePanel.Below="TbSB" Margin="20,0,0,0" IsReadOnly="True" HorizontalAlignment="Left"></TextBox>-->
+                        <TextBlock Name="lblTbD" FontSize="20" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="ChkFS" Margin="190,10,0,0">Tag Qty</TextBlock>
+
+                        <TextBlock FontSize="20" Name="TbT" RelativePanel.AlignTopWithPanel="True" Margin="20,15,0,0">Taxes</TextBlock>
+                        <TextBlock FontSize="20" Name="TbCo" RelativePanel.Below="ComboTax" Margin="20,8,0,0">Cost</TextBlock>
+                        <TextBlock FontSize="20" Name="TbP" RelativePanel.Below="txtCost" Margin="20,8,0,0">Price</TextBlock>
+                        <TextBox IsReadOnly="True" FontSize="18" Name="txtCost" MinWidth="50" MinHeight="24" Height="35" InputScope="Number"  RelativePanel.AlignLeftWithPanel="True" Width="250" RelativePanel.Below="TbCo"  Margin="20,0,0,0"></TextBox>
+                        <TextBox IsReadOnly="True" FontSize="18" Name="txtPrice"  MinWidth="50" MinHeight="24" Height="35" InputScope="Number" RelativePanel.AlignLeftWithPanel="True" Width="250" RelativePanel.Below="TbP"  Margin="20,0,0,0"></TextBox>
+
+                        <ComboBox  Name="ComboTax" FontSize="18" DropDownOpened="ComboTax_DropDownOpened" RelativePanel.AlignLeftWithPanel="True" Width="250" RelativePanel.Below="TbT"
+                       HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Margin="20,0,0,0">
+                        </ComboBox>
+
+                    </RelativePanel>
+                    <Popup VerticalOffset="30" Loaded="StandardPopup_Loaded"  HorizontalOffset="150" x:Name="StandardPopup">
+                        <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="300" Height="200">
+                            <RelativePanel>
+                                <TextBlock RelativePanel.AlignTopWithPanel="True" x:Name="Title" Margin="20,10,0,0" Text="Item Price" FontSize="24.667" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <TextBox Width="260" Height="45" x:Name="popupPrice" FontSize="25"  RelativePanel.Below="Title" Margin="20,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <Button Content="Save" x:Name="BtnSavePop" FontSize="25" Click="Button_Click"  HorizontalAlignment="Left" VerticalAlignment="Top" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="popupPrice" Margin="20,20,0,0" Height="45" Width="118"/>
+                                <Button Content="Cancel" FontSize="25" Click="SimulateSaveClicked" HorizontalAlignment="Left" VerticalAlignment="Top" RelativePanel.AlignRightWith="popupPrice" RelativePanel.Below="popupPrice" Margin="20,20,0,0" Height="45" Width="118"/>
+                            </RelativePanel>
+                        </Border>
+                    </Popup>
+
+                    <Popup VerticalOffset="1"  HorizontalOffset="0" x:Name="ChartPopup">
+                        <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="550" Height="360">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="300"></RowDefinition>
+                                    <RowDefinition Height="50"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Charting:Chart x:Name="ColumnChart" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,0,0,0" Width="500" Height="300">
+                                    <Charting:ColumnSeries Title="Item Sales" Margin="0" IndependentValuePath="Date" DependentValuePath="Amount" IsSelectionEnabled="True"></Charting:ColumnSeries>
+                                </Charting:Chart>
+                                <Button x:Name="btnChart" Grid.Row="1" Content="Ok" FontSize="20" Click="BtnChart_Click_1"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Height="40" Width="118"/>
+
+                            </Grid>
+
+
+                        </Border>
+                    </Popup>
+
+                    <Grid Name="Overlay" Visibility="Collapsed">
+                        <Grid Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Button Background="AliceBlue" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Name="ButtonCancel">Cancel</Button>
+                        </Grid>
+                    </Grid>
+
+                                <!--<Popup VerticalOffset="50" HorizontalOffset="50" x:Name="MorePopup">
+                        <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                                BorderThickness="1" Width="300" Height="180">
+                            <RelativePanel>
+                                <TextBlock RelativePanel.AlignTopWithPanel="True" x:Name="Titlemore" Margin="20,10,0,0" FontSize="24.667" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <TextBox Width="260" Height="35" x:Name="popupPricemore" RelativePanel.Below="Titlemore" Margin="20,25,0,0" InputScope="Default" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <Button Content="Save" x:Name="BtnSavePopmore" Click="BtnSavePop_Click"  HorizontalAlignment="Left" VerticalAlignment="Top" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="popupPrice" Margin="20,20,0,0" Height="35" Width="118"/>
+                                <Button Content="Cancel" x:Name="BtnClosepopup" Click="BtnClosepopup_Click"  HorizontalAlignment="Left" VerticalAlignment="Top" RelativePanel.AlignRightWith="popupPrice" RelativePanel.Below="popupPrice" Margin="20,20,0,0" Height="35" Width="118"/>
+                            </RelativePanel>
+                        </Border>
+                    </Popup>-->
+
+                </Grid>
+            </RelativePanel>
+
+            <Popup VerticalOffset="100" HorizontalOffset="70" Loaded="YESNOPOPopup_Loaded"  x:Name="YESNOPOPopup" Grid.RowSpan="2">
+                <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="350" Height="210">
+                    <RelativePanel>
+                        <TextBlock RelativePanel.AlignTopWithPanel="True" x:Name="YNTitle" Margin="20,15,0,0" FontSize="20" Text="Warning!"></TextBlock>
+
+                        <TextBlock RelativePanel.Below="YNTitle" x:Name="Msg" Margin="20,15,0,0"  FontSize="20" Text="Are you sure want delete this item?"></TextBlock>
+                        <TextBlock RelativePanel.Below="Msg" x:Name="Msg2" Margin="20,5,0,0"  FontSize="20" Text="This action cannot be reversed."></TextBlock>
+
+                        <Button  x:Name="BtnY" Click="BtnY_Click"  HorizontalAlignment="Center" FontSize="20" Content="Yes" VerticalAlignment="Top" RelativePanel.AlignLeftWith="Msg" RelativePanel.Below="Msg2" Width="118"  Height="45" Margin="40,15,0,0"></Button>
+                        <Button x:Name="BtnN" Click="BtnN_Click"  HorizontalAlignment="Center" FontSize="20"   Content="No" VerticalAlignment="Top" RelativePanel.RightOf="BtnY" RelativePanel.Below="Msg2" Width="118"  Height="45" Margin="45,15,0,0"></Button>
+
+                    </RelativePanel>
+                </Border>
+            </Popup>
+            
+        </Grid>
+    </Viewbox>
+</Page>

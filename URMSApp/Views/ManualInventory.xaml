@@ -1,0 +1,156 @@
+﻿<Page
+    x:Class="URMSApp.Views.ManualInventory"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:URMSApp.Views"
+    xmlns:vm="using:URMSApp.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <Page.DataContext>
+        <vm:CollectionViewModel/>
+    </Page.DataContext>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <RelativePanel>
+            <Grid Margin="20,5,0,0" Width="950">
+                <Grid.Resources>
+                    <vm:CollectionViewModel x:Name="CollectionVM" x:Key="CollectionVM"/>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Width="850" RelativePanel.AlignLeftWith="InvListView" Margin="10,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="125"/>
+                        <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Name="ChkFInv" FontSize="25"  Grid.Column="0" MinWidth="150" Click="ChkFInv_Click"  RelativePanel.AlignLeftWithPanel="True" Grid.ColumnSpan="2" Height="20" Width="141">Filter Date</CheckBox>
+                </Grid>
+
+                <Grid Grid.Row="1" Width="850" RelativePanel.AlignLeftWith="InvListView" Margin="10,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13.276"/>
+                        <ColumnDefinition Width="22.345"/>
+                        <ColumnDefinition Width="21.655"/>
+                        <ColumnDefinition Width="202.586"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="210"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="130"/>
+                    </Grid.ColumnDefinitions>
+                    <CalendarDatePicker IsEnabled="False" Grid.Column="0" DateFormat="{}{year.full}/{month.integer}/{day.integer}" RelativePanel.AlignLeftWithPanel="true" Name="DPInv" FontSize="25" Height="45" Width="250" Grid.ColumnSpan="4"/>
+                    <ComboBox  Name="ComboStatus" DropDownOpened="ComboStatus_DropDownOpened" Grid.Column="5" RelativePanel.AlignLeftWithPanel="True" Width="170"
+                       HorizontalAlignment="Center" SelectedValue="Opened" Height="45" FontSize="25" VerticalAlignment="Center">
+                        <x:String>All</x:String>
+                        <x:String>Opened</x:String>
+                        <x:String>Calculated</x:String>
+                        <x:String>Closed</x:String>
+                    </ComboBox>
+                    <Button Grid.Column="7" FontSize="25" IsEnabled="False" Content="Filter" x:Name="BtnFilter" Click="BtnFilter_Click"  RelativePanel.AlignRightWith="BtnDelInv" Height="45" Width="110"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Width="840" RelativePanel.AlignLeftWith="InvListView"  Margin="35,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="210"/>
+                        <ColumnDefinition Width="80"/>
+
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" FontSize="25" Text="Ref. Number:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" FontSize="25" Text="Description:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" FontSize="25" Text="Opened Date:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="3" FontSize="25" Text="Status:" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                </Grid>
+                <Border x:Name="BorderList"  Grid.Row="3" RelativePanel.AlignHorizontalCenterWithPanel="True"  
+                    BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                    BorderThickness="1" Height="200" Width="840" Margin="0,0,0,0">
+                    <ListView x:Name="InvListView" IsItemClickEnabled="True" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                              ItemsSource="{Binding Source={StaticResource CollectionVM}, Path=InventoryList, Mode=TwoWay}"
+                              ItemClick="InvListView_ItemClick"  HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top">
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="MinHeight" Value="10"/>
+                                <Setter Property="Height" Value="30"/>
+                                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="220"/>
+                                            <ColumnDefinition Width="280"/>
+                                            <ColumnDefinition Width="210"/>
+                                            <ColumnDefinition Width="80"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock HorizontalAlignment="Left" x:Name="TxtINVId" FontSize="17" Grid.Column = "0" Margin = "0,0,10,0"  Text="{Binding INVCode, Mode=TwoWay}"></TextBlock>
+                                        <TextBlock HorizontalAlignment="Left" x:Name="TxtINVDescription" FontSize="17" Grid.Column = "1" Margin = "0,0,10,0"  Text="{Binding INVDescription, Mode=TwoWay}"></TextBlock>
+                                        <TextBlock HorizontalAlignment="Left" x:Name="TxtOpenedDate" FontSize="17" Grid.Column = "2" Margin = "0,0,10,0"  Text="{Binding INVDate, Mode=TwoWay}"></TextBlock>
+                                        <TextBlock HorizontalAlignment="Left" x:Name="TxtPOStatus" FontSize="17" Grid.Column = "3" Margin = "0,0,10,0"  Text="{Binding INVStatus , Mode=TwoWay}"></TextBlock>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+                <Grid Grid.Row="4" Margin="0,5,0,0" RelativePanel.Below ="BorderP"  HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton  Grid.Column="0" Height="70" HorizontalAlignment="Center" FontSize="25" Content="New" x:Name="BtnNewInv" Click="BtnNewInv_Click"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Margin="20,10,0,40" VerticalAlignment="Top" Width="140"/>
+                    <ToggleButton Grid.Column="1"  Height="70" HorizontalAlignment="Center" FontSize="25" Content="Edit" x:Name="BtnEditInv" Click="BtnEditInv_Click"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.RightOf="BtnNewInv" Margin="30,10,0,40" VerticalAlignment="Top" Width="140"/>
+                    <ToggleButton Grid.Column="3"  Height="70" HorizontalAlignment="Center" FontSize="25" Content="Delete" x:Name="BtnDelInv" Click="BtnDelInv_Click"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.RightOf="BtnEditInv" Margin="30,10,0,40" VerticalAlignment="Top" Width="140"/>
+                </Grid>
+
+            </Grid>
+        </RelativePanel>
+
+
+        <Popup VerticalOffset="100" HorizontalOffset="100" x:Name="DeleteINVPopup">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="460" Height="110">
+                <RelativePanel>
+                    <Grid Width="440" HorizontalAlignment="Center" Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" >
+                            <TextBlock x:Name="Aviso" FontSize="18" RelativePanel.AlignTopWithPanel="True" Margin="10,5,0,0">The selected entry will be deleted.</TextBlock>
+                            <TextBlock x:Name="Aviso2" FontSize="18" RelativePanel.AlignTopWithPanel="True" Margin="10,5,0,0">This operation can NOT be undone, do you wish to continue?</TextBlock>
+                        </StackPanel>
+                        <Grid  Width="430" Grid.Row="1" RelativePanel.Below="Borde1" HorizontalAlignment="Center" Margin="15,10,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="215"/>
+                                <ColumnDefinition Width="215"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Yes" Grid.Column="0" FontSize="18"  x:Name="BtnOkDelete" Click="BtnOkDelete_Click"  HorizontalAlignment="Center" VerticalAlignment="Top" RelativePanel.AlignBottomWithPanel="True"  Margin="0,0,0,30" Height="35" MinWidth="98"/>
+                            <Button Content="No" Grid.Column="1" FontSize="18"  Click="SimulateSaveClicked" HorizontalAlignment="Center" VerticalAlignment="Top" RelativePanel.AlignBottomWithPanel="True"  Margin="0,0,0,10" Height="35" MinWidth="98"/>
+                        </Grid>
+                    </Grid>
+                </RelativePanel>
+            </Border>
+        </Popup>
+    </Grid>
+</Page>

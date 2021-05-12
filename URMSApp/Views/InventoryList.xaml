@@ -1,0 +1,143 @@
+﻿<Page
+    x:Class="URMSApp.Views.InventoryList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:URMSApp.Views"
+    xmlns:vm="using:URMSApp.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <vm:CollectionViewModel/>
+    </Page.DataContext>
+
+
+    <Grid Width="1000" HorizontalAlignment="Center" >
+        <Grid.Resources>
+            <vm:CollectionViewModel x:Name="CollectionVM" x:Key="CollectionVM"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <RelativePanel Grid.Row="0" Margin="10,10,0,5">
+            <TextBlock FontSize="25">New Physical Inventory</TextBlock>
+        </RelativePanel>
+        <RelativePanel Grid.Row="1" Margin="10,15,0,0">
+            <TextBlock x:Name="LblDate" FontSize="20" Text="Open Time:" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="TextINV" Margin="50,3,0,0"/>
+            <TextBox x:Name="TextDate" FontSize="25" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="LblDate" Margin="10,3,0,0" Width="250" Height="45" MinHeight="45"/>
+            <TextBlock RelativePanel.AlignTopWithPanel="True" FontSize="20" RelativePanel.AlignLeftWithPanel="True" x:Name="LblINV" Margin="0,3,0,0" Text="Ref. Number:" />
+            <TextBox FontSize="25"  RelativePanel.AlignTopWith="LblINV" RelativePanel.RightOf="LblINV" x:Name="TextINV" IsEnabled="false" Width="150" MinHeight="25" Height="45" Margin="10,3,0,0" />
+            <TextBlock RelativePanel.AlignTopWith="LblDate" FontSize="20" x:Name="LblStatus" Text="Status:" RelativePanel.RightOf="TextDate"  Margin="45,3,0,0"/>
+            <TextBox FontSize="25" Text="Opened" RelativePanel.AlignTopWith="LblDate" IsEnabled="False" x:Name="CombStatus" Width="120" MinHeight="25" Height="45" RelativePanel.RightOf="LblStatus" Margin="15,3,0,0" />
+
+            <TextBlock x:Name="LblTo" FontSize="20" Text="Description:" RelativePanel.Below="LblINV" RelativePanel.AlignLeftWithPanel="True" Margin="0,30,0,0"/>
+            <TextBox x:Name="TextTo" IsEnabled="false" FontSize="25" MinHeight="25" Height="45" RelativePanel.Below="LblINV" RelativePanel.RightOf="LblTo" Width="800" Margin="20,30,0,0"/>
+
+        </RelativePanel>
+        <RelativePanel Grid.Row="2" Margin="0,10,0,0" >
+            <Grid x:Name="HeaderGrid"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="340"/>
+                    <ColumnDefinition Width="165"/>
+                    <ColumnDefinition Width="165"/>
+                    <ColumnDefinition Width="100"/>
+                    
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"  Text=""></TextBlock>
+                <TextBlock x:Name="LblItemLC" HorizontalAlignment="Left" FontSize="23" Grid.Column = "1" Margin = "0,0,0,0"  Text="ItemLookupCode"></TextBlock>
+                <TextBlock x:Name="LblDesc" HorizontalAlignment="Left" FontSize="23" Grid.Column = "2" Margin = "0,0,0,0"  Text="Description"></TextBlock>
+                <TextBlock x:Name="LblDP" HorizontalAlignment="Left" FontSize="23" Grid.Column = "3" Margin = "0,0,0,0"  Text="Department"></TextBlock>
+                <TextBlock x:Name="LblCAT" HorizontalAlignment="Left" FontSize="23" Grid.Column = "4" Margin = "0,0,0,0"  Text="Category"></TextBlock>
+                <TextBlock x:Name="LblQ" HorizontalAlignment="Left" FontSize="23" Grid.Column = "5" Margin = "0,0,0,0"  Text="Counted"></TextBlock>
+            </Grid>
+            <Border x:Name="BordeGeneral" RelativePanel.AlignTopWithPanel="True"  BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                        Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Margin="0,45,0,0"
+                                        BorderThickness="1" Width="980" Height="350" RelativePanel.Below="HeaderGrid">
+                <ListView x:Name="InventoryItemListView"  
+                                      ItemsSource="{Binding Source={StaticResource CollectionVM}, Path=InventoryitemList, Mode=TwoWay}" 
+                                      HorizontalAlignment="Center" Margin="0,6,0,0" VerticalAlignment="Top"
+                                      ItemClick="InventoryItemListView_ItemClick"  IsItemClickEnabled="True">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0,0,0,0"/>
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="MinHeight" Value="30"/>
+                            <Setter Property="Height" Value="30"/>
+                            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Left">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="340"/>
+                                    <ColumnDefinition Width="165"/>
+                                    <ColumnDefinition Width="165"/>
+                                    <ColumnDefinition Width="100"/>
+                                   
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text=""></TextBlock>
+                                <TextBlock x:Name="TextItemLC" HorizontalAlignment="Left" FontSize="20" Grid.Column = "1" Margin = "0,0,0,0"  Text="{Binding ItemLookupCode}"></TextBlock>
+                                <TextBlock x:Name="TextDesc" HorizontalAlignment="Left" FontSize="20" Grid.Column = "2" Margin = "0,0,0,0"  Text="{Binding Description}"></TextBlock>
+                                <TextBlock  x:Name="TextDP" HorizontalAlignment="Left" FontSize="20" Grid.Column = "3" Margin = "0,0,0,0"  Text="{Binding Department}"></TextBlock>
+                                <TextBlock x:Name="TextCAT" HorizontalAlignment="Left" FontSize="20" Grid.Column = "4" Margin = "0,0,0,0"  Text="{Binding Category}"></TextBlock>
+                                <TextBlock x:Name="TextQ" HorizontalAlignment="Left" FontSize="20" Grid.Column = "5" Margin = "0,0,0,0"  Text="{Binding Counted, Mode=TwoWay}"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+            </Border>
+            
+            <Button x:Name="BtnAddI" Click="BtnAddI_Click" Width="100" Height="40" FontSize="18" RelativePanel.Below="BordeGeneral"  RelativePanel.AlignLeftWithPanel="True" Margin="10,10,0,20">Add Items...</Button>
+            <Button x:Name="BtnDeleteI" Click="BtnDeleteI_Click" Height="40" Width="100" FontSize="18" RelativePanel.AlignTopWith="BtnAddI" RelativePanel.RightOf="BtnAddI" Margin="40,10,0,20" HorizontalAlignment="Stretch">Delete</Button>
+            <!--<Button x:Name="BtnPruebaLaunch" Click="BtnPruebaLaunch_Click"  Height="40" Width="100" FontSize="18" RelativePanel.AlignTopWith="BtnAddI" RelativePanel.RightOf="BtnDeleteI" Margin="40,10,0,20" HorizontalAlignment="Stretch">Delete</Button>-->
+            <Button  Content="Save" x:Name="BtnOkPO" Click="BtnOkPO_Click" RelativePanel.AlignTopWith="BtnAddI" RelativePanel.AlignRightWithPanel="True" HorizontalAlignment="Right" FontSize="20" Margin="0,10,200,10" Height="45" Width="118" VerticalAlignment="Top"/>
+            <Button Content="Cancel" Click="SimulateSaveClicked" HorizontalAlignment="Right" RelativePanel.AlignTopWith="BtnAddI" RelativePanel.AlignRightWithPanel="True" Margin="14,10,30,10" FontSize="20" Height="45" Width="118"  VerticalAlignment="Top"/>
+        </RelativePanel>
+       
+        <Popup VerticalOffset="50" HorizontalOffset="200" Loaded="AddIPopup_Loaded" x:Name="AddIPopup" Grid.RowSpan="2">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="300" Height="320">
+                <RelativePanel>
+                    <TextBlock RelativePanel.AlignTopWithPanel="True" x:Name="Title" Margin="20,5,0,0" FontSize="20" Text="Add Item"></TextBlock>
+
+                    <TextBlock RelativePanel.Below="Title" x:Name="item" FontSize="25" Margin="20,20,0,0"  Text="Barcode:"></TextBlock>
+                    <TextBox RelativePanel.Below="item" Width="260" Height="45" FontSize="25" Margin="20,5,0,0" x:Name="TextBAddItem" KeyDown="TextBAddItem_KeyDown"></TextBox>
+                    <TextBlock RelativePanel.Below="TextBAddItem" x:Name="Cant" FontSize="25"  Margin="20,10,0,0"  Text="Qty:"></TextBlock>
+                    <TextBox RelativePanel.Below="Cant" x:Name="TextBCantAddItem" KeyDown="TextBCantAddItem_KeyDown" FontSize="25" Margin="20,5,0,0" Width="50" Height="45"></TextBox>
+
+                    <Button  x:Name="BtnAdd" Click="BtnAdd_Click"  HorizontalAlignment="Center" FontSize="25" Content="Add" VerticalAlignment="Top" RelativePanel.AlignLeftWith="TextBAddItem" RelativePanel.Below="TextBCantAddItem" Width="118"  Height="45" Margin="20,25,0,0"></Button>
+                    <Button x:Name="BtnClose" Click="BtnClose_Click" HorizontalAlignment="Center" FontSize="25"   Content="Close" VerticalAlignment="Top" RelativePanel.AlignRightWith="TextBAddItem" RelativePanel.Below="TextBCantAddItem" Width="118"  Height="45" Margin="0,25,0,0"></Button>
+
+                </RelativePanel>
+            </Border>
+        </Popup>
+     
+        <Popup VerticalOffset="100" HorizontalOffset="70" Loaded="YESNOIPopup_Loaded"  x:Name="YESNOIPopup" Grid.RowSpan="2">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="350" Height="210">
+                <RelativePanel>
+                    <TextBlock RelativePanel.AlignTopWithPanel="True" x:Name="YNTitle" Margin="20,15,0,0" FontSize="20" Text="Warning!"></TextBlock>
+
+                    <TextBlock RelativePanel.Below="YNTitle" x:Name="Msg" Margin="20,15,0,0"  FontSize="20" Text="Are you sure want delete this item?"></TextBlock>
+                    <TextBlock RelativePanel.Below="Msg" x:Name="Msg2" Margin="20,5,0,0"  FontSize="20" Text="This action cannot be reversed."></TextBlock>
+
+                    <Button  x:Name="BtnY" Click="BtnY_Click"  HorizontalAlignment="Center" FontSize="20" Content="Yes" VerticalAlignment="Top" RelativePanel.AlignLeftWith="Msg" RelativePanel.Below="Msg2" Width="118"  Height="45" Margin="40,15,0,0"></Button>
+                    <Button x:Name="BtnN" Click="BtnN_Click"  HorizontalAlignment="Center" FontSize="20"   Content="No" VerticalAlignment="Top" RelativePanel.RightOf="BtnY" RelativePanel.Below="Msg2" Width="118"  Height="45" Margin="45,15,0,0"></Button>
+
+                </RelativePanel>
+            </Border>
+        </Popup>
+    </Grid>
+</Page>

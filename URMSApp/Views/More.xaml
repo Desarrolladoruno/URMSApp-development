@@ -1,0 +1,73 @@
+﻿<Page
+    x:Class="URMSApp.More"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:URMSApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Viewbox>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <RelativePanel>
+            <CheckBox Name="ChkFS" MinWidth="100" Visibility="Collapsed" Click="ChkFS_Click"  RelativePanel.AlignLeftWithPanel="True" Margin="20,8,0,0">Accept food stamp for this item</CheckBox>
+            <Button Name="BtnEditTagaloneitem" Visibility="Collapsed" MinHeight="30" MinWidth="30" Click="BtnEditTagaloneitem_Click"  Margin="20,0,30,0" RelativePanel.AlignTopWith="ComboTagAlone" RelativePanel.RightOf="ComboTagAlone">...</Button>
+            <Button Name="BtnEditTagaloneqty" Visibility="Collapsed" MinHeight="30"  MinWidth="30" Click="BtnEditTagaloneqty_Click"  Margin="30,0,30,0" RelativePanel.AlignTopWith="txtTagaloneqty" RelativePanel.RightOf="txtTagaloneqty">...</Button>
+            <Button Name="BtnEditParentItem" Visibility="Collapsed" MinHeight="30" MinWidth="30" Click="BtnEditParentItem_Click"  Margin="20,0,30,0" RelativePanel.AlignTopWith="ComboParent" RelativePanel.RightOf="ComboParent">...</Button>
+            <Button Name="BtnEditChildqty" MinHeight="50" MinWidth="50" Click="BtnEditChildqty_Click"  Margin="30,0,30,0" RelativePanel.AlignTopWith="txtChildqty" RelativePanel.RightOf="txtChildqty">...</Button>
+
+            <TextBlock Name="TbSB" Visibility="Collapsed" RelativePanel.Below="ChkFS" Margin="20,30,0,0">Tag Alone Item</TextBlock>
+            <!--<TextBox  Name="txtTagaloneitem"  MinHeight="30" Width="175" RelativePanel.AlignLeftWithPanel="true"  RelativePanel.Below="TbSB" Margin="20,0,0,0" IsReadOnly="True" HorizontalAlignment="Left"></TextBox>-->
+            <TextBlock Name="TbD" Visibility="Collapsed" RelativePanel.AlignTopWith="TbSB" RelativePanel.RightOf="TbSB" Margin="104,30,0,0">Tag Alone Qty</TextBlock>
+            <TextBox IsReadOnly="True" Visibility="Collapsed" Name="txtTagaloneqty" InputScope="Number" MinWidth="50" MinHeight="30" Width="60" RelativePanel.RightOf="BtnEditTagaloneitem"  RelativePanel.Below="TbD" Margin="30,0,0,0" HorizontalAlignment="Left"></TextBox>
+            <TextBlock Name="TbIN" RelativePanel.Below="txtTagaloneqty" FontSize="25" Margin="20,20,0,0">Parent Item</TextBlock>
+            <!--<TextBox IsReadOnly="True" Name="txtParentItem" Width="175" RelativePanel.AlignLeftWithPanel="True"  RelativePanel.Below="TbIN"  Margin="20,0,0,0" HorizontalAlignment="Left"></TextBox>-->
+            <TextBlock Name="TbDep" FontSize="25" RelativePanel.Below="txtTagaloneqty" RelativePanel.RightOf="ComboParent" Margin="30,20,0,0">Child Qty</TextBlock>
+            <TextBlock Name="TbMess" FontSize="25" RelativePanel.Below="ComboParent" RelativePanel.AlignLeftWithPanel="True" Margin="20,20,0,0">Item Message</TextBlock>
+            <TextBox IsReadOnly="True" Name="txtChildqty"  InputScope="Number" MinWidth="60"  MinHeight="50" Width="80" RelativePanel.RightOf="ComboParent"  RelativePanel.Below="TbDep" Margin="30,0,0,0" HorizontalAlignment="Left"></TextBox>
+            <ComboBox  Name="ComboTagAlone" Visibility="Collapsed" DropDownOpened="ComboTagAlone_DropDownOpened" IsEnabled="True" RelativePanel.AlignLeftWithPanel="True" Width="175" RelativePanel.Below="TbSB"
+                       HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Margin="20,0,0,0">
+                <!--<ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>-->
+            </ComboBox>
+            <ComboBox  Name="ComboParent" DropDownOpened="ComboParent_DropDownOpened" IsEnabled="True"  RelativePanel.AlignLeftWithPanel="True" Width="250" RelativePanel.Below="TbIN"
+                       HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Margin="20,0,0,0">
+                <!--<ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>-->
+            </ComboBox>
+            <ComboBox  Name="ComboMessage" DropDownOpened="ComboMessage_DropDownOpened"  IsEnabled="True"  RelativePanel.AlignLeftWithPanel="True" Width="250" RelativePanel.Below="TbMess"
+                       HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Margin="20,0,0,0">
+                <!--<ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>-->
+            </ComboBox>
+            <Button Name="BtnSave" MinWidth="375" Visibility="Collapsed" Click="BtnSave_Click"  RelativePanel.Below="txtChildqty" RelativePanel.AlignLeftWithPanel="True" Margin="20,50,0,20" HorizontalAlignment="Stretch" Width="250">Save</Button>
+        </RelativePanel>
+
+        <Popup VerticalOffset="5" HorizontalOffset="150" x:Name="MorePopup">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="1" Width="300" Height="200">
+                <RelativePanel>
+                    <TextBlock RelativePanel.AlignTopWithPanel="True" x:Name="Title" Margin="20,10,0,0" Text="Item Price" FontSize="24.667" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBox Width="260" Height="35" x:Name="popupPrice" FontSize="25" RelativePanel.Below="Title" Margin="20,25,0,0" InputScope="Default" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Button Content="Save" x:Name="BtnSavePop" FontSize="25" Click="BtnSavePop_Click"  HorizontalAlignment="Left" VerticalAlignment="Top" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="popupPrice" Margin="20,20,0,0" Height="45" Width="118"/>
+                        <Button Content="Cancel" x:Name="BtnClosepopup" FontSize="25" Click="BtnClosepopup_Click"  HorizontalAlignment="Left" VerticalAlignment="Top" RelativePanel.AlignRightWith="popupPrice" RelativePanel.Below="popupPrice" Margin="20,20,0,0" Height="45" Width="118"/>
+                </RelativePanel>
+            </Border>
+        </Popup>
+    </Grid>
+    </Viewbox>
+</Page>
